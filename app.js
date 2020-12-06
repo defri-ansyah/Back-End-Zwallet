@@ -1,14 +1,14 @@
-require('dotenv').config()
-const express = require('express')
-const morgan = require('morgan')
-const app = express()
-const router = express.Router()
-const PORT = process.env.PORT
-const cors = require('cors')
-const routerUsers = require('./src/routers/users')
-const routerTransactions = require('./src/routers/transactions.js')
-const routerPhoneNumber = require('./src/routers/phoneNumber')
-const bodyParser = require('body-parser')
+require('dotenv').config();
+const express = require('express');
+const morgan = require('morgan');
+
+const app = express();
+const { PORT } = process.env;
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const routerUsers = require('./src/routers/users');
+const routerTransactions = require('./src/routers/transactions.js');
+const routerPhoneNumber = require('./src/routers/phoneNumber');
 
 // membuat middleware
 // const mymiddleware = (req, res, next) =>{
@@ -17,24 +17,25 @@ const bodyParser = require('body-parser')
 //     next()
 // }
 
-app.use(cors())
+app.use(cors());
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
- 
+app.use(bodyParser.urlencoded({ extended: false }));
+
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 // add morgan
-app.use(morgan('dev'))
+app.use(morgan('dev'));  
+app.use('/src/upload', express.static('./src/upload'))
 
 // add mymiddleware
 // app.use(mymiddleware)
 
-
 // menenggukan router
-app.use('/users',routerUsers)
-app.use('/transactions', routerTransactions)
-app.use('/phone-number', routerPhoneNumber)
+app.use('/users', routerUsers);
+app.use('/transactions', routerTransactions);
+app.use('/phone-number', routerPhoneNumber);
 
-app.listen(PORT, ()=> console.log(`server is running port ${PORT}`))
+// eslint-disable-next-line no-console
+app.listen(PORT, () => console.log(`server is running port ${PORT}`));
